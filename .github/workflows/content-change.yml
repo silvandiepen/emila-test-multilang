@@ -1,0 +1,162 @@
+name: Emila Content Change
+
+on:
+  workflow_dispatch:
+    inputs:
+      clientId:
+        required: true
+        type: string
+      jobId:
+        required: true
+        type: string
+      revisionId:
+        required: true
+        type: string
+      senderEmail:
+        required: true
+        type: string
+      requestText:
+        required: true
+        type: string
+      contentBranch:
+        required: true
+        type: string
+      productionBranch:
+        required: true
+        type: string
+      editablePaths:
+        required: true
+        type: string
+      defaultLanguage:
+        required: true
+        type: string
+      supportedLanguages:
+        required: true
+        type: string
+      installCommand:
+        required: false
+        type: string
+      buildCommand:
+        required: false
+        type: string
+      outputDirectory:
+        required: true
+        type: string
+      previewUrl:
+        required: true
+        type: string
+      editRequestUrl:
+        required: true
+        type: string
+      previewResetUrl:
+        required: true
+        type: string
+      previewUploadUrl:
+        required: true
+        type: string
+      workflowToken:
+        required: true
+        type: string
+      platformCallbackUrl:
+        required: true
+        type: string
+      platformCallbackToken:
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  apply-content-change:
+    runs-on: ubuntu-latest
+    env:
+      CLIENT_ID: ${{ inputs.clientId }}
+      JOB_ID: ${{ inputs.jobId }}
+      REVISION_ID: ${{ inputs.revisionId }}
+      SENDER_EMAIL: ${{ inputs.senderEmail }}
+      REQUEST_TEXT: ${{ inputs.requestText }}
+      CONTENT_BRANCH: ${{ inputs.contentBranch }}
+      PRODUCTION_BRANCH: ${{ inputs.productionBranch }}
+      EDITABLE_PATHS: ${{ inputs.editablePaths }}
+      DEFAULT_LANGUAGE: ${{ inputs.defaultLanguage }}
+      SUPPORTED_LANGUAGES: ${{ inputs.supportedLanguages }}
+      INSTALL_COMMAND: ${{ inputs.installCommand }}
+      BUILD_COMMAND: ${{ inputs.buildCommand }}
+      OUTPUT_DIRECTORY: ${{ inputs.outputDirectory }}
+      PREVIEW_URL: ${{ inputs.previewUrl }}
+      EDIT_REQUEST_URL: ${{ inputs.editRequestUrl }}
+      PREVIEW_RESET_URL: ${{ inputs.previewResetUrl }}
+      PREVIEW_UPLOAD_URL: ${{ inputs.previewUploadUrl }}
+      WORKFLOW_TOKEN: ${{ inputs.workflowToken }}
+      PLATFORM_CALLBACK_URL: ${{ inputs.platformCallbackUrl }}
+      PLATFORM_CALLBACK_TOKEN: ${{ inputs.platformCallbackToken }}
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
+      GITHUB_RUN_ID: ${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Emila content workflow script
+        id: download_emila_content_script
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! curl --retry 3 --retry-delay 2 --retry-all-errors -fsSL https://cdn.emila.dev/workflows/content-change.sh -o /tmp/emila-content-change.sh; then
+            printf '%s\n' "EMILA_BOOTSTRAP_FAILURE_SUMMARY=Failed to download Emila content workflow script from https://cdn.emila.dev/workflows/content-change.sh. Check the GitHub Actions log for the curl error." >> "$GITHUB_ENV"
+            exit 1
+          fi
+          chmod +x /tmp/emila-content-change.sh
+
+      - name: Run Emila content workflow script
+        shell: bash
+        run: |
+          /tmp/emila-content-change.sh
+
+      - name: Report content workflow bootstrap failure
+        if: ${{ always() && steps.download_emila_content_script.outcome == 'failure' }}
+        shell: bash
+        run: |
+          summary="$EMILA_BOOTSTRAP_FAILURE_SUMMARY"
+          if [ -z "$summary" ]; then
+            summary="Emila content workflow bootstrap failed before the workflow script could start. Check the GitHub Actions log for the failing step."
+          fi
+
+          jq -n \
+            --arg token "$PLATFORM_CALLBACK_TOKEN" \
+            --arg clientId "$CLIENT_ID" \
+            --arg jobId "$JOB_ID" \
+            --arg revisionId "$REVISION_ID" \
+            --arg workflowType "content_change" \
+            --arg status "failed" \
+            --arg summary "$summary" \
+            --arg branchName "$CONTENT_BRANCH" \
+            --arg commitSha "" \
+            --arg previewUrl "" \
+            --arg pullRequestUrl "" \
+            --arg workflowRunId "$GITHUB_RUN_ID" \
+            --arg ambiguityReason "" \
+            '{
+              token: $token,
+              clientId: $clientId,
+              jobId: $jobId,
+              revisionId: $revisionId,
+              workflowType: $workflowType,
+              status: $status,
+              summary: $summary,
+              changedFiles: [],
+              tasks: [],
+              branchName: $branchName,
+              commitSha: $commitSha,
+              previewUrl: $previewUrl,
+              pullRequestNumber: null,
+              pullRequestUrl: $pullRequestUrl,
+              workflowRunId: $workflowRunId,
+              ambiguityReason: $ambiguityReason
+            }' \
+            | curl --retry 3 --retry-delay 2 --retry-all-errors -fsSL -X POST "$PLATFORM_CALLBACK_URL" \
+              -H "Content-Type: application/json" \
+              --data-binary @-
