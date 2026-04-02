@@ -5,7 +5,7 @@
     "contact": "Contact"
   },
   "home": {
-    "title": "Welkom op Onze Website",
+    "title": "This is the multilang test website",
     "subtitle": "Ontdek geweldige dingen met ons",
     "description": "Dit is een meertalige website gebouwd met Vue 3, TypeScript en vue-i18n. Gebruik de taalwisselaar om de taal te wijzigen.",
     "cta": "Aan de Slag"
