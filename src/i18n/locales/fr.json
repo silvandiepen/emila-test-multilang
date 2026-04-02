@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Bienvenue sur Notre Site Web",
+    "subtitle": "Découvrez des choses incroyables avec nous",
+    "description": "Ceci est un site web multilingue construit avec Vue 3, TypeScript et vue-i18n. Utilisez le sélecteur de langue pour changer la langue.",
+    "cta": "Commencer"
+  },
+  "about": {
+    "title": "À Propos de Nous",
+    "subtitle": "Apprenez-en plus sur qui nous sommes",
+    "description": "Nous sommes une équipe passionnée dédiée à créer des expériences numériques exceptionnelles. Notre mission est de construire des solutions innovantes qui font la différence.",
+    "team": "Notre Équipe",
+    "teamDescription": "Nous réunissons des experts de divers domaines pour offrir les meilleurs résultats à nos clients."
+  },
+  "contact": {
+    "title": "Contactez-Nous",
+    "subtitle": "Nous serions ravis de vous entendre",
+    "description": "Vous avez une question ou souhaitez travailler ensemble? Remplissez le formulaire ci-dessous et nous vous répondrons dès que possible.",
+    "form": {
+      "name": "Nom",
+      "email": "E-mail",
+      "message": "Message",
+      "submit": "Envoyer le Message"
+    }
+  },
+  "language": {
+    "label": "Langue",
+    "en": "Anglais",
+    "nl": "Néerlandais",
+    "es": "Espagnol",
+    "fr": "Français"
+  },
+  "footer": {
+    "copyright": "Tous droits réservés"
+  }
+}

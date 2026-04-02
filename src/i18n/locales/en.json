@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Welcome to Our Website",
+    "subtitle": "Discover amazing things with us",
+    "description": "This is a multilingual website built with Vue 3, TypeScript, and vue-i18n. Use the language switcher to change the language.",
+    "cta": "Get Started"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Learn more about who we are",
+    "description": "We are a passionate team dedicated to creating exceptional digital experiences. Our mission is to build innovative solutions that make a difference.",
+    "team": "Our Team",
+    "teamDescription": "We bring together experts from various fields to deliver the best results for our clients."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We'd love to hear from you",
+    "description": "Have a question or want to work together? Fill out the form below and we'll get back to you as soon as possible.",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Send Message"
+    }
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "nl": "Dutch",
+    "es": "Spanish",
+    "fr": "French"
+  },
+  "footer": {
+    "copyright": "All rights reserved"
+  }
+}

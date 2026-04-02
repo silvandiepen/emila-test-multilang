@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "Over Ons",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Welkom op Onze Website",
+    "subtitle": "Ontdek geweldige dingen met ons",
+    "description": "Dit is een meertalige website gebouwd met Vue 3, TypeScript en vue-i18n. Gebruik de taalwisselaar om de taal te wijzigen.",
+    "cta": "Aan de Slag"
+  },
+  "about": {
+    "title": "Over Ons",
+    "subtitle": "Leer meer over wie we zijn",
+    "description": "Wij zijn een gepassioneerd team dat zich toelegt op het creëren van uitzonderlijke digitale ervaringen. Onze missie is het bouwen van innovatieve oplossingen die het verschil maken.",
+    "team": "Ons Team",
+    "teamDescription": "We brengen experts uit verschillende vakgebieden samen om de beste resultaten voor onze klanten te leveren."
+  },
+  "contact": {
+    "title": "Neem Contact Op",
+    "subtitle": "We horen graag van je",
+    "description": "Heb je een vraag of wil je samenwerken? Vul het onderstaande formulier in en we nemen zo snel mogelijk contact met je op.",
+    "form": {
+      "name": "Naam",
+      "email": "E-mail",
+      "message": "Bericht",
+      "submit": "Verstuur Bericht"
+    }
+  },
+  "language": {
+    "label": "Taal",
+    "en": "Engels",
+    "nl": "Nederlands",
+    "es": "Spaans",
+    "fr": "Frans"
+  },
+  "footer": {
+    "copyright": "Alle rechten voorbehouden"
+  }
+}

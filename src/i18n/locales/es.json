@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Nosotros",
+    "contact": "Contacto"
+  },
+  "home": {
+    "title": "Bienvenido a Nuestro Sitio Web",
+    "subtitle": "Descubre cosas increíbles con nosotros",
+    "description": "Este es un sitio web multilingüe construido con Vue 3, TypeScript y vue-i18n. Usa el selector de idioma para cambiar el idioma.",
+    "cta": "Comenzar"
+  },
+  "about": {
+    "title": "Sobre Nosotros",
+    "subtitle": "Conoce más sobre quiénes somos",
+    "description": "Somos un equipo apasionado dedicado a crear experiencias digitales excepcionales. Nuestra misión es construir soluciones innovadoras que marquen la diferencia.",
+    "team": "Nuestro Equipo",
+    "teamDescription": "Reunimos expertos de diversos campos para entregar los mejores resultados a nuestros clientes."
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "subtitle": "Nos encantaría saber de ti",
+    "description": "¿Tienes una pregunta o quieres trabajar juntos? Completa el formulario a continuación y te responderemos lo antes posible.",
+    "form": {
+      "name": "Nombre",
+      "email": "Correo Electrónico",
+      "message": "Mensaje",
+      "submit": "Enviar Mensaje"
+    }
+  },
+  "language": {
+    "label": "Idioma",
+    "en": "Inglés",
+    "nl": "Holandés",
+    "es": "Español",
+    "fr": "Francés"
+  },
+  "footer": {
+    "copyright": "Todos los derechos reservados"
+  }
+}
