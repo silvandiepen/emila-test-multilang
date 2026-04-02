@@ -1,0 +1,137 @@
+name: Emila Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      clientId:
+        required: true
+        type: string
+      jobId:
+        required: true
+        type: string
+      revisionId:
+        required: true
+        type: string
+      senderEmail:
+        required: true
+        type: string
+      contentBranch:
+        required: true
+        type: string
+      productionBranch:
+        required: true
+        type: string
+      commitSha:
+        required: true
+        type: string
+      previewUrl:
+        required: true
+        type: string
+      branchName:
+        required: true
+        type: string
+      pullRequestNumber:
+        required: true
+        type: string
+      pullRequestUrl:
+        required: false
+        type: string
+      workflowToken:
+        required: true
+        type: string
+      platformCallbackUrl:
+        required: true
+        type: string
+      platformCallbackToken:
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  publish-content:
+    runs-on: ubuntu-latest
+    env:
+      CLIENT_ID: ${{ inputs.clientId }}
+      JOB_ID: ${{ inputs.jobId }}
+      REVISION_ID: ${{ inputs.revisionId }}
+      SENDER_EMAIL: ${{ inputs.senderEmail }}
+      CONTENT_BRANCH: ${{ inputs.contentBranch }}
+      PRODUCTION_BRANCH: ${{ inputs.productionBranch }}
+      COMMIT_SHA: ${{ inputs.commitSha }}
+      PREVIEW_URL: ${{ inputs.previewUrl }}
+      BRANCH_NAME: ${{ inputs.branchName }}
+      PULL_REQUEST_NUMBER: ${{ inputs.pullRequestNumber }}
+      PULL_REQUEST_URL: ${{ inputs.pullRequestUrl }}
+      WORKFLOW_TOKEN: ${{ inputs.workflowToken }}
+      PLATFORM_CALLBACK_URL: ${{ inputs.platformCallbackUrl }}
+      PLATFORM_CALLBACK_TOKEN: ${{ inputs.platformCallbackToken }}
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
+      GITHUB_RUN_ID: ${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Emila publish workflow script
+        id: download_emila_publish_script
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! curl --retry 3 --retry-delay 2 --retry-all-errors -fsSL https://cdn.emila.dev/workflows/content-publish.sh -o /tmp/emila-content-publish.sh; then
+            printf '%s\n' "EMILA_BOOTSTRAP_FAILURE_SUMMARY=Failed to download Emila publish workflow script from https://cdn.emila.dev/workflows/content-publish.sh. Check the GitHub Actions log for the curl error." >> "$GITHUB_ENV"
+            exit 1
+          fi
+          chmod +x /tmp/emila-content-publish.sh
+
+      - name: Run Emila publish workflow script
+        shell: bash
+        run: |
+          /tmp/emila-content-publish.sh
+
+      - name: Report publish workflow bootstrap failure
+        if: ${{ always() && steps.download_emila_publish_script.outcome == 'failure' }}
+        shell: bash
+        run: |
+          summary="$EMILA_BOOTSTRAP_FAILURE_SUMMARY"
+          if [ -z "$summary" ]; then
+            summary="Emila publish workflow bootstrap failed before the workflow script could start. Check the GitHub Actions log for the failing step."
+          fi
+
+          jq -n \
+            --arg token "$PLATFORM_CALLBACK_TOKEN" \
+            --arg clientId "$CLIENT_ID" \
+            --arg jobId "$JOB_ID" \
+            --arg revisionId "$REVISION_ID" \
+            --arg workflowType "content_publish" \
+            --arg status "failed" \
+            --arg summary "$summary" \
+            --arg branchName "$CONTENT_BRANCH" \
+            --arg commitSha "" \
+            --arg previewUrl "$PREVIEW_URL" \
+            --arg pullRequestUrl "$PULL_REQUEST_URL" \
+            --arg workflowRunId "$GITHUB_RUN_ID" \
+            --arg ambiguityReason "" \
+            --arg pullRequestNumber "$PULL_REQUEST_NUMBER" \
+            '{
+              token: $token,
+              clientId: $clientId,
+              jobId: $jobId,
+              revisionId: $revisionId,
+              workflowType: $workflowType,
+              status: $status,
+              summary: $summary,
+              changedFiles: [],
+              tasks: [],
+              branchName: $branchName,
+              commitSha: $commitSha,
+              previewUrl: $previewUrl,
+              pullRequestNumber: ($pullRequestNumber | if . == "" then null else try tonumber catch null end),
+              pullRequestUrl: $pullRequestUrl,
+              workflowRunId: $workflowRunId,
+              ambiguityReason: $ambiguityReason
+            }' \
+            | curl --retry 3 --retry-delay 2 --retry-all-errors -fsSL -X POST "$PLATFORM_CALLBACK_URL" \
+              -H "Content-Type: application/json" \
+              --data-binary @-
