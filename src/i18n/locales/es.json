@@ -5,7 +5,7 @@
     "contact": "Contacto"
   },
   "home": {
-    "title": "Welcome to Sleutel-Hoeve",
+    "title": "Bienvenido a Nuestro Sitio Web",
     "subtitle": "Descubre cosas increíbles con nosotros",
     "description": "Este es un sitio web multilingüe construido con Vue 3, TypeScript y vue-i18n. Usa el selector de idioma para cambiar el idioma.",
     "cta": "Comenzar"
