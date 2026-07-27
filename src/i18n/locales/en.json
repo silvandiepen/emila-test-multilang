@@ -6,7 +6,7 @@
   },
   "home": {
     "title": "Welcome to Our Website",
-    "subtitle": "Discover the Dutch coast with us",
+    "subtitle": "Discover amazing things with us",
     "description": "This is a multilingual website built with Vue 3, TypeScript, and vue-i18n. Use the language switcher to change the language.",
     "cta": "Get Started"
   },
