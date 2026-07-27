@@ -1,0 +1,171 @@
+{
+  "version": 1,
+  "site": {
+    "name": "Multilingual Demo",
+    "liveURL": "https://example.com"
+  },
+  "locales": {
+    "strategy": "filePerLocale",
+    "default": "en",
+    "available": ["en", "nl", "fr", "es"],
+    "parity": "strict"
+  },
+  "sources": [
+    {
+      "id": "site",
+      "format": "json",
+      "path": "src/i18n/locales/{locale}.json"
+    }
+  ],
+  "sections": [
+    {
+      "id": "home",
+      "label": "Home page",
+      "source": "site",
+      "fields": [
+        {
+          "path": "home.title",
+          "type": "text",
+          "label": "Main heading",
+          "description": "The first thing visitors read",
+          "constraints": { "required": true, "maxLength": 80 }
+        },
+        {
+          "path": "home.subtitle",
+          "type": "text",
+          "label": "Subheading",
+          "constraints": { "maxLength": 120 }
+        },
+        {
+          "path": "home.description",
+          "type": "textarea",
+          "label": "Introduction",
+          "constraints": { "maxLength": 400 }
+        },
+        {
+          "path": "home.cta",
+          "type": "text",
+          "label": "Button text",
+          "constraints": { "required": true, "maxLength": 30 }
+        }
+      ]
+    },
+    {
+      "id": "about",
+      "label": "About page",
+      "source": "site",
+      "fields": [
+        {
+          "path": "about.title",
+          "type": "text",
+          "label": "Main heading",
+          "constraints": { "required": true, "maxLength": 80 }
+        },
+        {
+          "path": "about.subtitle",
+          "type": "text",
+          "label": "Subheading",
+          "constraints": { "maxLength": 120 }
+        },
+        {
+          "path": "about.description",
+          "type": "textarea",
+          "label": "Introduction",
+          "constraints": { "maxLength": 600 }
+        },
+        {
+          "path": "about.team",
+          "type": "text",
+          "label": "Team heading",
+          "constraints": { "maxLength": 80 }
+        },
+        {
+          "path": "about.teamDescription",
+          "type": "textarea",
+          "label": "About the team",
+          "constraints": { "maxLength": 600 }
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "label": "Contact page",
+      "source": "site",
+      "fields": [
+        {
+          "path": "contact.title",
+          "type": "text",
+          "label": "Main heading",
+          "constraints": { "required": true, "maxLength": 80 }
+        },
+        {
+          "path": "contact.subtitle",
+          "type": "text",
+          "label": "Subheading",
+          "constraints": { "maxLength": 120 }
+        },
+        {
+          "path": "contact.description",
+          "type": "textarea",
+          "label": "Introduction",
+          "constraints": { "maxLength": 400 }
+        },
+        {
+          "path": "contact.form.name",
+          "type": "text",
+          "label": "Name field label",
+          "constraints": { "maxLength": 40 }
+        },
+        {
+          "path": "contact.form.email",
+          "type": "text",
+          "label": "Email field label",
+          "constraints": { "maxLength": 40 }
+        },
+        {
+          "path": "contact.form.message",
+          "type": "text",
+          "label": "Message field label",
+          "constraints": { "maxLength": 40 }
+        },
+        {
+          "path": "contact.form.submit",
+          "type": "text",
+          "label": "Send button text",
+          "constraints": { "maxLength": 40 }
+        }
+      ]
+    },
+    {
+      "id": "navigation",
+      "label": "Menu and footer",
+      "source": "site",
+      "fields": [
+        {
+          "path": "nav.home",
+          "type": "text",
+          "label": "Home link",
+          "constraints": { "required": true, "maxLength": 30 }
+        },
+        {
+          "path": "nav.about",
+          "type": "text",
+          "label": "About link",
+          "constraints": { "required": true, "maxLength": 30 }
+        },
+        {
+          "path": "nav.contact",
+          "type": "text",
+          "label": "Contact link",
+          "constraints": { "required": true, "maxLength": 30 }
+        },
+        {
+          "path": "footer.copyright",
+          "type": "text",
+          "label": "Footer text",
+          "constraints": { "maxLength": 120 }
+        }
+      ]
+    }
+  ]
+}
