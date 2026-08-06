@@ -5,7 +5,7 @@
     "contact": "Contact"
   },
   "home": {
-    "title": "Bienvenue sur Notre Site Web",
+    "title": "This is the multilang test website",
     "subtitle": "Découvrez des choses incroyables avec nous",
     "description": "Ceci est un site web multilingue construit avec Vue 3, TypeScript et vue-i18n. Utilisez le sélecteur de langue pour changer la langue.",
     "cta": "Commencer"
